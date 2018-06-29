@@ -3,12 +3,15 @@
 #include "BTreeNode.h"
 
 class BTree{
-public:
+private:
   BTreeNode* root = NULL;
   int T;
-private:
+public:
   BTree();
   BTree(int);
+  BTreeNode* getRoot();
   void insert(int);
+  void split(BTreeNode*);
+  BTreeNode* getLeaf(BTreeNode*, int);
 };
 #endif
