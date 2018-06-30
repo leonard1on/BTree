@@ -1,6 +1,7 @@
 #include "BTree.h"
 #include "BTreeNode.h"
 #include "List.h"
+#include "Key.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -9,9 +10,9 @@
 using namespace std;
 
 int main() {
-  BTree* tree = new BTree(5);
+  BTree* tree = new BTree(3);
   for (int i = 1; i <= 40; i++) {
-    tree->insert(i);
+    tree->insert(new Key(i,0));
   }
 
   tree->printPrevious(tree->getRoot());

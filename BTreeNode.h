@@ -1,6 +1,7 @@
 #ifndef BTreeNode_h
 #define BTreeNode_h
 #include "List.h"
+#include "Key.h"
 #include <vector>
 #include <string>
 
@@ -8,7 +9,7 @@ using namespace std;
 
 class BTreeNode{
   private:
-    List<int>* keys;
+    List<Key*>* keys;
     List<BTreeNode*>* children;
     BTreeNode* parent = NULL;
     int T;
@@ -18,8 +19,8 @@ class BTreeNode{
     BTreeNode(int);
 
     //Gets
-    List<int>* getKeys();
-    int getKeysAt(int);
+    List<Key*>* getKeys();
+    Key* getKeysAt(int);
     int getT();
     BTreeNode* getParent();
     void setParent(BTreeNode*);
@@ -30,5 +31,7 @@ class BTreeNode{
     void addChild(BTreeNode*);
     void removeLastChild();
     string toString();
+
+    ~BTreeNode();
 };
 #endif

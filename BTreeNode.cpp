@@ -4,16 +4,16 @@ BTreeNode::BTreeNode(){
 
 BTreeNode::BTreeNode(int t){
   T=t;
-  keys = new List<int>;
+  keys = new List<Key*>;
   children = new List<BTreeNode*>;
 }
 
 //Gets
-List<int>* BTreeNode::getKeys(){
+List<Key*>* BTreeNode::getKeys(){
   return keys;
 }
 
-int BTreeNode::getKeysAt(int posicion){
+Key* BTreeNode::getKeysAt(int posicion){
   return keys->get(posicion);
 }
 
@@ -52,8 +52,12 @@ void BTreeNode::removeLastChild(){
 string BTreeNode::toString(){
   string temp ="";
   for (int i = 1; i <= keys->size; i++) {
-    temp+="["+ to_string(keys->get(i));
+    temp+="["+ to_string(keys->get(i)->getKey());
   }
   temp+="]";
   return temp;
+}
+
+BTreeNode::~BTreeNode(){
+
 }

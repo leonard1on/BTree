@@ -16,7 +16,8 @@ BTree::BTree(int pT) {
 BTreeNode* BTree::getRoot(){
   return root;
 }
-void BTree::insert(int key){
+
+void BTree::insert(Key* key){
   BTreeNode* temp = new BTreeNode(T);
   temp = root;
   /*while (!temp->isLeaf()) {
@@ -31,13 +32,12 @@ void BTree::insert(int key){
     }
     //temp = temp->getChildrenAt(2);
   }*/
-  temp = getLeaf(temp, key);
+  temp = getLeaf(temp, key->getKey());
 
   temp->getKeys()->insert(key);
   temp->getKeys()->sort();
 
   if (temp->getKeys()->size > temp->getT()-1) {
-
     split(temp);
   }
 
@@ -48,7 +48,8 @@ void BTree::split(BTreeNode* node){
   BTreeNode* left = new BTreeNode(T);
   BTreeNode* right = new BTreeNode(T);
   int half = 1 + ((node->getKeys()->size-1) / 2);
-  int key = node->getKeysAt(node->getKeys()->size);
+  //int key = node->getKeysAt(node->getKeys()->size);
+
   for (int i = 1; i <= node->getKeys()->size; i++) {
     if (i<half) {
       left->getKeys()->insert(node->getKeysAt(i));
@@ -90,7 +91,7 @@ BTreeNode* BTree::getLeaf(BTreeNode* node, int key){
   if (!node->isLeaf()) {
 
     for (int i = 1; i <= node->getKeys()->size; i++) {
-      if (key < node->getKeysAt(i) && !bandera) {
+      if (key < node->getKeysAt(i)->getKey() && !bandera) {
         node = node->getChildrenAt(i);
         bandera = true;
       }

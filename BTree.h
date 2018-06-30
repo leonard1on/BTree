@@ -10,7 +10,7 @@ public:
   BTree();
   BTree(int);
   BTreeNode* getRoot();
-  void insert(int);
+  void insert(Key*);
   void split(BTreeNode*);
   BTreeNode* getLeaf(BTreeNode*, int);
   void printPrevious(BTreeNode*);
