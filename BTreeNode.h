@@ -22,11 +22,13 @@ class BTreeNode{
     int getKeysAt(int);
     int getT();
     BTreeNode* getParent();
+    void setParent(BTreeNode*);
 
     bool isLeaf();
     List<BTreeNode*>* getChildren();
     BTreeNode* getChildrenAt(int);
     void addChild(BTreeNode*);
     void removeLastChild();
+    string toString();
 };
 #endif

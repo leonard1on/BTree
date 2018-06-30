@@ -13,5 +13,6 @@ public:
   void insert(int);
   void split(BTreeNode*);
   BTreeNode* getLeaf(BTreeNode*, int);
+  void printPrevious(BTreeNode*);
 };
 #endif

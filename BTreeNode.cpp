@@ -25,7 +25,9 @@ BTreeNode* BTreeNode::getParent(){
   return parent;
 }
 
-
+void BTreeNode::setParent(BTreeNode* node){
+    parent=node;
+}
 bool BTreeNode::isLeaf(){
   return children->size==0;
 }
@@ -45,4 +47,13 @@ void BTreeNode::addChild(BTreeNode* child){
 
 void BTreeNode::removeLastChild(){
   children->remove(children->size);
+}
+
+string BTreeNode::toString(){
+  string temp ="";
+  for (int i = 1; i <= keys->size; i++) {
+    temp+="["+ to_string(keys->get(i));
+  }
+  temp+="]";
+  return temp;
 }

@@ -37,6 +37,7 @@ void BTree::insert(int key){
   temp->getKeys()->sort();
 
   if (temp->getKeys()->size > temp->getT()-1) {
+
     split(temp);
   }
 
@@ -47,7 +48,7 @@ void BTree::split(BTreeNode* node){
   BTreeNode* left = new BTreeNode(T);
   BTreeNode* right = new BTreeNode(T);
   int half = 1 + ((node->getKeys()->size-1) / 2);
-
+  int key = node->getKeysAt(node->getKeys()->size);
   for (int i = 1; i <= node->getKeys()->size; i++) {
     if (i<half) {
       left->getKeys()->insert(node->getKeysAt(i));
@@ -57,10 +58,10 @@ void BTree::split(BTreeNode* node){
   }
 
   for (int i = 1; i <= node->getChildren()->size; i++) {
-    if (i<half) {
-      left->getChildren()->insert(node->getChildrenAt(i));
+    if (i<=half) {
+      left->addChild(node->getChildrenAt(i));
     }else {
-      right->getChildren()->insert(node->getChildrenAt(i));
+      right->addChild(node->getChildrenAt(i));
     }
   }
 
@@ -72,7 +73,9 @@ void BTree::split(BTreeNode* node){
     root = top;
   }else{
     top->getKeys()->insert(node->getKeysAt(half));
+    left->setParent(top);
     top->getChildren()->replace(top->getChildren()->size, left);
+
     top->addChild(right);
   }
 
@@ -82,24 +85,37 @@ void BTree::split(BTreeNode* node){
 
 }
 
-BTreeNode* BTree::getLeaf(BTreeNode* root, int key){
+BTreeNode* BTree::getLeaf(BTreeNode* node, int key){
   bool bandera = false;
-  if (!root->isLeaf()) {
+  if (!node->isLeaf()) {
 
-    for (int i = 1; i <= root->getKeys()->size; i++) {
-      if (key < root->getKeysAt(i) && !bandera) {
-        root = root->getChildrenAt(i);
+    for (int i = 1; i <= node->getKeys()->size; i++) {
+      if (key < node->getKeysAt(i) && !bandera) {
+        node = node->getChildrenAt(i);
         bandera = true;
       }
     }
 
     if (!bandera) {
-      root = root->getChildrenAt(root->getChildren()->size);
+      node = node->getChildrenAt(node->getChildren()->size);
     }
 
-    getLeaf(root, key);
+    node = getLeaf(node, key);
   }
-  return root;
+  return node;
+}
+
+void BTree::printPrevious(BTreeNode* node){
+//  cout<<"~~"+node->toString() <<endl;
+  if (!node->isLeaf()) {
+    printPrevious(node->getChildrenAt(1));
+    cout<< node->toString()<<endl;
+    for (int i = 2; i <= node->getChildren()->size; i++) {
+      printPrevious(node->getChildrenAt(i));
+    }
+  }else{
+    cout<<node->toString()<<endl;
+  }
 }
 
 
