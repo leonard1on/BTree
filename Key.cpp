@@ -1,16 +1,16 @@
 #include "Key.h"
 
 Key::Key(){
-  key=0;
+  key="";
   index=-1;
 }
 
-Key::Key(int pKey, int pIndex){
+Key::Key(string pKey, int pIndex){
   key = pKey;
   index = pIndex;
 }
 
-int Key::getKey(){
+string Key::getKey(){
   return key;
 }
 
@@ -18,9 +18,17 @@ int Key::getIndex(){
   return index;
 }
 
+void Key::setKey(string pKey){
+  key=pKey;
+}
 
-bool Key::operator>(Key* right){
-  if(key > right->getKey()){
+void Key::setIndex(int pIndex){
+  index=pIndex;
+}
+
+bool Key::operator >(Key right){
+//  cout<<to_string(key)+"~~"+to_string(right.getKey());
+  if(key > right.getKey()){
     return true;
   }else{
     return false;

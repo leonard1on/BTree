@@ -23,6 +23,10 @@ public:
     return data;
   }
 
+  T* getDataPointer(){
+      return &data;
+  }
+
   ListNode<T>* getPrevious(){
     return previous;
   }
@@ -47,6 +51,8 @@ public:
     if (next != 0) {
       delete next;
     }
+
+    previous = 0;
   }
 };
 
@@ -108,6 +114,18 @@ public:
       }
 
       return currentListNode->getData();
+  }
+
+  T* getPointer(int index){
+      ListNode<T>* currentListNode = head;
+
+      for (int i = 2; i <= index; i++) {
+        if (currentListNode != 0) {
+          currentListNode = currentListNode->getNext();
+        }
+      }
+
+      return currentListNode->getDataPointer();
   }
 
   bool replace(int index, T nData){
@@ -312,9 +330,9 @@ public:
   }
 
   ~List<T>(){
-    if (head != 0) {
-      //delete head;
-    }
+    /*if (head != 0) {
+      delete head;
+    }*/
   }
 };
 

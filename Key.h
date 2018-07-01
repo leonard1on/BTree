@@ -1,19 +1,25 @@
 #ifndef KEY_H
 #define KEY_H
+#include <string>
+#include <iostream>
+using namespace std;
 class Key {
 private:
-  int key;
+  string key;
   int index;
 
 public:
   Key();
-  Key (int, int);
+  Key (string, int);
 
   //Gets
-  int getKey();
+  string getKey();
   int getIndex();
 
-  bool operator>(Key* right);
+  void setKey(string);
+  void setIndex(int);
+
+  bool operator >(Key right);
   virtual ~Key ();
 };
 #endif

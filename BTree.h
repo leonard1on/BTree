@@ -10,9 +10,11 @@ public:
   BTree();
   BTree(int);
   BTreeNode* getRoot();
+  void sort(BTreeNode*);
   void insert(Key*);
   void split(BTreeNode*);
-  BTreeNode* getLeaf(BTreeNode*, int);
+  BTreeNode* getLeaf(BTreeNode*, string);
   void printPrevious(BTreeNode*);
+  int findIndex(BTreeNode*, string);
 };
 #endif
