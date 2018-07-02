@@ -152,6 +152,45 @@ void BTree::merge(BTreeNode* node){
       if (top->getKeys()->size < t) {
         merge(top);
       }
+    }else{
+      left = top->getChildrenAt(index-1);
+      right = top->getChildrenAt(index+1);
+      if (left->getKeys()->size > right->getKeys()->size) {
+        left->getKeys()->insert(top->getKeysAt(index));
+        top->getKeys()->remove(index);
+        for (int i = 1; i <= right->getKeys()->size  ; i++) {
+          left->getKeys()->insert(node->getKeysAt(i));
+        }
+        for (int i = 1; i <= right->getChildren()->size  ; i++) {
+          left->getChildren()->insert(node->getChildrenAt(i));
+        }
+        top->getChildren()->remove(index);
+
+        if (left->getKeys()->size > T) {
+          split(node);
+        }
+        if (top->getKeys()->size < t) {
+          merge(top);
+        }
+      }else{
+        node->getKeys()->insert(top->getKeysAt(index));
+        top->getKeys()->remove(index);
+
+        for (int i = 1; i <= right->getKeys()->size  ; i++) {
+          node->getKeys()->insert(right->getKeysAt(i));
+        }
+        for (int i = 1; i <= right->getChildren()->size  ; i++) {
+          node->getChildren()->insert(right->getChildrenAt(i));
+        }
+
+        top->getChildren()->remove(index+1);
+        if (node->getKeys()->size > T) {
+          split(node);
+        }
+        if (top->getKeys()->size < t) {
+          merge(top);
+        }
+      }
     }
   }
 
