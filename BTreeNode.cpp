@@ -2,8 +2,9 @@
 BTreeNode::BTreeNode(){
 }
 
-BTreeNode::BTreeNode(int t){
-  T=t;
+BTreeNode::BTreeNode(int pT){
+  T=pT;
+  t=(pT-1)/2;
   keys = new List<Key*>;
   children = new List<BTreeNode*>;
 }
@@ -19,6 +20,10 @@ Key* BTreeNode::getKeysAt(int posicion){
 
 int BTreeNode::getT(){
   return T;
+}
+
+int BTreeNode::getMin(){
+  return t;
 }
 
 BTreeNode* BTreeNode::getParent(){

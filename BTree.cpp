@@ -11,6 +11,7 @@ BTree::BTree() {
 BTree::BTree(int pT) {
   root = new BTreeNode(pT);
   T=pT;
+  t=(pT-1)/2;
 }
 
 BTreeNode* BTree::getRoot(){
@@ -90,6 +91,73 @@ void BTree::split(BTreeNode* node){
 
 }
 
+void BTree::remove(string key){
+  BTreeNode* temp = new BTreeNode(T);
+  temp = root;
+  temp = findNode(temp, key);
+  for (int i = 1; i <= temp->getKeys()->size; i++) {
+    if (key==temp->getKeysAt(i)->getKey()) {
+      temp->getKeys()->remove(i);
+    }
+  }
+  if (temp->getKeys()->size < t) {
+    merge(temp);
+  }
+}
+
+void BTree::merge(BTreeNode* node){
+  BTreeNode* top = node->getParent();
+  BTreeNode* left = new BTreeNode(T);
+  BTreeNode* right = new BTreeNode(T);
+  if (top==NULL) {
+
+  }else{
+    int index = top->getChildren()->indexOf(node);
+    if (index == 1) {
+      right = top->getChildrenAt(index+1);
+      node->getKeys()->insert(top->getKeysAt(index));
+      top->getKeys()->remove(index);
+
+      for (int i = 1; i <= right->getKeys()->size  ; i++) {
+        node->getKeys()->insert(right->getKeysAt(i));
+      }
+      for (int i = 1; i <= right->getChildren()->size  ; i++) {
+        node->getChildren()->insert(right->getChildrenAt(i));
+      }
+
+      top->getChildren()->remove(index+1);
+      if (node->getKeys()->size > T) {
+        split(node);
+      }
+      if (top->getKeys()->size < t) {
+        merge(top);
+      }
+
+    } else if(index = top->getChildren()->size){
+      left = top->getChildrenAt(index-1);
+      left->getKeys()->insert(top->getKeysAt(index));
+      top->getKeys()->remove(index);
+
+      for (int i = 1; i <= right->getKeys()->size  ; i++) {
+        left->getKeys()->insert(node->getKeysAt(i));
+      }
+      for (int i = 1; i <= right->getChildren()->size  ; i++) {
+        left->getChildren()->insert(node->getChildrenAt(i));
+      }
+      top->getChildren()->remove(index);
+
+      if (left->getKeys()->size > T) {
+        split(node);
+      }
+      if (top->getKeys()->size < t) {
+        merge(top);
+      }
+    }
+  }
+
+
+}
+
 BTreeNode* BTree::getLeaf(BTreeNode* node, string key){
   bool bandera = false;
   if (!node->isLeaf()) {
@@ -137,8 +205,36 @@ int BTree::findIndex(BTreeNode* node, string key){
   }
   return -1;
 }
+
+BTreeNode* BTree::findNode(BTreeNode* node, string key){
+  bool bandera = false;
+  if (!node->isLeaf()) {
+
+    for (int i = 1; i <= node->getKeys()->size; i++) {
+      if (key == node->getKeysAt(i)->getKey()) {
+        return node;
+      } else if (key < node->getKeysAt(i)->getKey() && !bandera) {
+        node = node->getChildrenAt(i);
+        bandera = true;
+      }
+    }
+
+    if (!bandera) {
+      node = node->getChildrenAt(node->getChildren()->size);
+    }
+
+    return findNode(node, key);
+  }else{
+    for (int i = 1; i <= node->getKeys()->size; i++) {
+      if (key == node->getKeysAt(i)->getKey()) {
+        return node;
+      }
+    }
+  }
+  return NULL;
+}
+
 void BTree::printPrevious(BTreeNode* node){
-//  cout<<"~~"+node->toString() <<endl;
   if (!node->isLeaf()) {
     printPrevious(node->getChildrenAt(1));
     cout<< node->toString()<<endl;

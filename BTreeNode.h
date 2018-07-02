@@ -13,6 +13,7 @@ class BTreeNode{
     List<BTreeNode*>* children;
     BTreeNode* parent = NULL;
     int T;
+    int t;
   public:
     //Constructor
     BTreeNode();
@@ -22,6 +23,7 @@ class BTreeNode{
     List<Key*>* getKeys();
     Key* getKeysAt(int);
     int getT();
+    int getMin();
     BTreeNode* getParent();
     void setParent(BTreeNode*);
 
